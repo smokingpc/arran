@@ -10,8 +10,7 @@ VisualStudio 2019 / 2022
 WDK 10.0.20348 / WindowsSDK 10.0.20348
 
 <br>
-#Arran : 實驗性音效卡Driver
-Arran 是寫完NVMe Driver後偶然想玩一下音效卡與DirectSound搭配的實驗性質Driver。
+Arran 是我寫完NVMe Driver後偶然想玩一下音效卡與DirectSound搭配的實驗性質Driver。
 
 由於MSDN一直沒講清楚Driver層該如何與DirectX搭配，看了很久突發奇想：或許不需要糾結這個，
 
