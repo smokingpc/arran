@@ -38,7 +38,17 @@
 // Enjoy it.
 // ================================================================
 
-typedef struct _AUDIO_PORTCLASS_CTX {
-    ULONG Reserved;
-}AUDIO_PORTCLASS_CTX, *PAUDIO_PORTCLASS_CTX, 
-    DEVICE_EXTENSION, *PDEVICE_EXTENSION;
+//Device Interface GUID
+DEFINE_GUID(GUID_DEVINTERFACE_CMI8738,
+    0xd227e149, 0x37e5, 0x428e, 0x95, 0x24, 0xa2, 0x0f, 0x1c, 0x10, 0xdf, 0xef);
+
+EXTERN_C_START
+DRIVER_INITIALIZE DriverEntry;
+DRIVER_UNLOAD DriverUnload;
+_Dispatch_type_(IRP_MJ_PNP) DRIVER_DISPATCH PnpHandler;
+
+#if 0
+EVT_WDF_DRIVER_DEVICE_ADD CMI8738EvtDeviceAdd;
+EVT_WDF_OBJECT_CONTEXT_CLEANUP CMI8738EvtDriverContextCleanup;
+#endif
+EXTERN_C_END

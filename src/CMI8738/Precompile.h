@@ -38,7 +38,16 @@
 // Enjoy it.
 // ================================================================
 
-typedef struct _AUDIO_PORTCLASS_CTX {
-    ULONG Reserved;
-}AUDIO_PORTCLASS_CTX, *PAUDIO_PORTCLASS_CTX, 
-    DEVICE_EXTENSION, *PDEVICE_EXTENSION;
+
+#include <wdm.h>
+#include <portcls.h>
+#include <initguid.h>
+
+#include "PoolTag.h"
+#include "Driver.h"
+
+#include "..\WdmUtils_output\WdmUtils.h"
+#include "..\WdmUtils_output\AutoPtr.hpp"
+
+
+

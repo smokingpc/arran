@@ -38,7 +38,4 @@
 // Enjoy it.
 // ================================================================
 
-typedef struct _AUDIO_PORTCLASS_CTX {
-    ULONG Reserved;
-}AUDIO_PORTCLASS_CTX, *PAUDIO_PORTCLASS_CTX, 
-    DEVICE_EXTENSION, *PDEVICE_EXTENSION;
+#define TAG_MINIPORT_ADAPTER        ((ULONG)'NARA')

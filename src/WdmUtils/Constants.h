@@ -1,12 +1,14 @@
 #pragma once
 // ================================================================
-// SpcNvme : OpenSource CMI8738 Audio Driver for Windows 10+
+// WdmUtils : WDM utility functions for CPP Support, AutoPointer...etc.
+// This util can be used for WDF also. Support almost all Win2000+ versions.
 // Author : Roy Wang(SmokingPC).
 // Licensed by MIT License.
 // 
-// Copyright (C) since 2024, Roy Wang (SmokingPC)
+// Copyright (C) 2024, Roy Wang (SmokingPC)
 // https://github.com/smokingpc/
 // 
+// NVMe Spec: https://nvmexpress.org/specifications/
 // Contact Me : smokingpc@gmail.com
 // ================================================================
 // Permission is hereby granted, free of charge, to any person obtaining a 
@@ -28,17 +30,20 @@
 // IN THE SOFTWARE.
 // ================================================================
 // [Additional Statement]
-// This is experimental Driver for CMI8738 audio card.
-// I used PCIe version of this audio card to write this driver.
-// You can copy, modify, redistribute the source code. 
-// 
 // PLEASE KEEP MY NAME in this codes.
 // This is my only expectation for this project. :)
 // 
 // Enjoy it.
 // ================================================================
 
-typedef struct _AUDIO_PORTCLASS_CTX {
-    ULONG Reserved;
-}AUDIO_PORTCLASS_CTX, *PAUDIO_PORTCLASS_CTX, 
-    DEVICE_EXTENSION, *PDEVICE_EXTENSION;
+
+#define MARKER_TAG          0x23939889      //pizza-hut!  :p
+#define BSOD_DELETE_ERROR   0x28825252      //dominos pizza!  :p
+
+#define MSG_BUFFER_SIZE     128
+#define DEBUG_PREFIX        "SPC ==>"
+#define DBG_FILTER          0x00000888
+
+#define CALLINOUT_TAG       (ULONG)'TUOC'
+#define DBGMSG_LEVEL       0x00001000
+#define KPRINTF(x)  DbgPrintEx(DPFLTR_IHVDRIVER_ID,DBGMSG_LEVEL,x);

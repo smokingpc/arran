@@ -1,0 +1,79 @@
+;
+; CMI8738.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=Media
+ClassGuid={4d36e96c-e325-11ce-bfc1-08002be10318}
+Provider=%ManufacturerName%
+CatalogFile=SpcCMI8738.cat
+DriverVer=*
+PnpLockdown=1
+
+[DestinationDirs]
+DefaultDestDir = 13
+;CMI8738_Device_CoInstaller_CopyFiles = 11
+
+; ================= Class section =====================
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+SpcCMI8738.sys  = 1,,
+;WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll=1 ; make sure the number matches with SourceDisksNames
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName%=Standard,NT$ARCH$
+
+[Standard.NT$ARCH$]
+%CMI8738.DeviceDesc%=CMI8738_Device, PCI\VEN_13F6&DEV_0111&CC_0401
+
+[CMI8738_Device.NT]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+SpcCMI8738.sys
+
+;-------------- Service installation
+[CMI8738_Device.NT.Services]
+AddService = spc8738, %SPSVCINST_ASSOCSERVICE%, CMI8738_Service_Inst
+
+; -------------- CMI8738 driver install sections
+[CMI8738_Service_Inst]
+DisplayName    = %CMI8738.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %13%\SpcCMI8738.sys
+
+;
+;--- CMI8738_Device Coinstaller installation ------
+;
+
+;[CMI8738_Device.NT.CoInstallers]
+;AddReg=CMI8738_Device_CoInstaller_AddReg
+;CopyFiles=CMI8738_Device_CoInstaller_CopyFiles
+
+;[CMI8738_Device_CoInstaller_AddReg]
+;HKR,,CoInstallers32,0x00010000, "WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll,WdfCoInstaller"
+
+;[CMI8738_Device_CoInstaller_CopyFiles]
+;WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll
+
+;[CMI8738_Device.NT.Wdf]
+;KmdfService =  CMI8738, CMI8738_wdfsect
+;[CMI8738_wdfsect]
+;KmdfLibraryVersion = $KMDFVERSION$
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="SmokingPC" 
+DiskName = "SmokingPC CMI8738 Installation Disk"
+CMI8738.DeviceDesc = "SmokingPC CMI8738 Audio Device"
+CMI8738.SVCDESC = "SmokingPC CMI8738 Audio Service"

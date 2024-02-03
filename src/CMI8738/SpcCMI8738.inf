@@ -1,0 +1,54 @@
+;
+; SpcCMI8738.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=Media
+ClassGuid={4d36e96c-e325-11ce-bfc1-08002be10318}
+Provider=%ManufacturerName%
+DriverVer=*
+CatalogFile=SpcCMI8738.cat
+PnpLockDown=1
+
+;This template is supported for OS version 17763 (Windows 10 version 1809) and after.
+;For Windows OS prior to Windows 10 1809 set DefaultDestDir = 12
+[DestinationDirs]
+DefaultDestDir = 13
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+SpcCMI8738.sys  = 1,,
+
+[Manufacturer]
+%ManufacturerName%=SPC_CMI8738,NT$ARCH$
+
+[SPC_CMI8738.NT$ARCH$]
+%CMI8738.DeviceDesc%=SPC_CMI8738_Device, PCI\VEN_13F6&DEV_0111&CC_0401
+
+[SPC_CMI8738_Device.NT]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+SpcCMI8738.sys
+
+;-------------- Service installation
+[SPC_CMI8738_Device.NT.Services]
+AddService = spc8738, %SPSVCINST_ASSOCSERVICE%, SPC_CMI8738_Service_Inst
+
+; -------------- CMI8738 driver install sections
+[SPC_CMI8738_Service_Inst]
+DisplayName    = %CMI8738.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %13%\SpcCMI8738.sys
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="SmokingPC" 
+DiskName = "SmokingPC CMI8738 Installation Disk"
+CMI8738.DeviceDesc = "SmokingPC CMI8738 Audio Device"
+CMI8738.SVCDESC = "SmokingPC CMI8738 Audio Service"

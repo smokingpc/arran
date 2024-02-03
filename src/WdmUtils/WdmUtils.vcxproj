@@ -11,13 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{6D0174BC-B03F-4982-8016-44C0ADFD089A}</ProjectGuid>
+    <ProjectGuid>{9DBDEB97-CFC9-4172-BC5B-0A71C628F58A}</ProjectGuid>
     <TemplateGuid>{dd38f7fc-d7bd-488b-9242-7d8754cde80d}</TemplateGuid>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
     <Configuration>Debug</Configuration>
     <Platform Condition="'$(Platform)' == ''">Win32</Platform>
-    <RootNamespace>CMI8738</RootNamespace>
+    <RootNamespace>SpcWdmUtils</RootNamespace>
+    <ProjectName>WdmUtils</ProjectName>
     <WindowsTargetPlatformVersion>$(LatestTargetPlatformVersion)</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -26,18 +27,18 @@
     </TargetVersion>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>WindowsKernelModeDriver10.0</PlatformToolset>
-    <ConfigurationType>Driver</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <DriverType>WDM</DriverType>
-    <DriverTargetPlatform>Universal</DriverTargetPlatform>
+    <DriverTargetPlatform>Windows Driver</DriverTargetPlatform>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <TargetVersion>
     </TargetVersion>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>WindowsKernelModeDriver10.0</PlatformToolset>
-    <ConfigurationType>Driver</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <DriverType>WDM</DriverType>
-    <DriverTargetPlatform>Universal</DriverTargetPlatform>
+    <DriverTargetPlatform>Windows Driver</DriverTargetPlatform>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -49,17 +50,13 @@
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
-    <OutDir>$(SolutionDir)..\output\$(Platform)\$(ConfigurationName)\</OutDir>
+    <OutDir>$(SolutionDir)WdmUtils_output\$(Platform)\$(ConfigurationName)\</OutDir>
     <IntDir>$(ProjectDir)$(Platform)\$(Configuration)\</IntDir>
-    <Inf2CatUseLocalTime>true</Inf2CatUseLocalTime>
-    <TargetName>Spc$(TargetName.Replace(' ',''))</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
-    <OutDir>$(SolutionDir)..\output\$(Platform)\$(ConfigurationName)\</OutDir>
+    <OutDir>$(SolutionDir)WdmUtils_output\$(Platform)\$(ConfigurationName)\</OutDir>
     <IntDir>$(ProjectDir)$(Platform)\$(Configuration)\</IntDir>
-    <Inf2CatUseLocalTime>true</Inf2CatUseLocalTime>
-    <TargetName>Spc$(TargetName.Replace(' ',''))</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -69,14 +66,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)WdmUtils_output\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>WdmUtils.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-    <DriverSign>
-      <FileDigestAlgorithm>sha256</FileDigestAlgorithm>
-    </DriverSign>
+    <PostBuildEvent>
+      <Command>copy /y $(ProjectDir)WdmUtils.h $(SolutionDir)WdmUtils_output\
+copy /y $(ProjectDir)AutoPtr.hpp $(SolutionDir)WdmUtils_output\
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -86,28 +83,30 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)WdmUtils_output\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>WdmUtils.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-    <DriverSign>
-      <FileDigestAlgorithm>sha256</FileDigestAlgorithm>
-    </DriverSign>
+    <PostBuildEvent>
+      <Command>copy /y $(ProjectDir)WdmUtils.h $(SolutionDir)WdmUtils_output\
+copy /y $(ProjectDir)AutoPtr.hpp $(SolutionDir)WdmUtils_output\
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <Inf Include="SpcCMI8738.inf" />
-  </ItemGroup>
   <ItemGroup>
     <FilesToPackage Include="$(TargetPath)" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Driver.h" />
+    <ClInclude Include="Constants.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="AutoPtr.hpp" />
     <ClInclude Include="PoolTag.h" />
-    <ClInclude Include="Precompile.h" />
+    <ClInclude Include="WdmUtils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DriverEntry.cpp" />
+    <ClCompile Include="AutoLock.cpp" />
+    <ClCompile Include="CppSupport.cpp" />
+    <ClCompile Include="DebugUtils.cpp" />
+    <ClCompile Include="OS_Utils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
